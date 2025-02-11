@@ -45,10 +45,12 @@ INSTALLED_APPS = [
     'djoser',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://localhost:5173",
+CORS_ALLOW_ALL_ORIGINS = True
 
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://localhost:5173",
+
+# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

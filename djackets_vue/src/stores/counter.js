@@ -1,12 +1,36 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { createStore } from "vuex";
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
+export default createStore({
+  state: {
+    cart: {
+      items: [],
+    },
+    isAuthenticated: false,
+    token: "",
+    isLoading: false,
+  },
+  mutations: {
+    initializeStore(state) {
+      if (localStorage.getItem("cart")) {
+        state.cart = JSON.parse(localStorage.getItem("cart"));
+      } else {
+        localStorage.setItem("cart", JSON.stringify(state.cart));
+      }
+    },
+    addToCart(state, item) {
+      const exists = state.cart.items.filter(
+        (i) => i.product.id === item.product.id
+      );
+      if (exists.length) {
+        exists[0].quantity =
+          parseInt(exists[0].quantity) + parseInt(item.quantity);
+      } else {
+        state.cart.items.push(item);
+      }
 
-  return { count, doubleCount, increment }
-})
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
+  },
+  actions: {},
+  getters: {},
+});
